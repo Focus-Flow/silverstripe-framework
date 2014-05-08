@@ -161,7 +161,7 @@ class MySQLDatabase extends SS_Database {
 	}
 
 	public function createDatabase() {
-		$this->query("CREATE DATABASE \"$this->database\" DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci");
+		$this->query("CREATE DATABASE \"$this->database\" DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_swedish_ci");
 		$this->query("USE \"$this->database\"");
 
 		$this->tableList = $this->fieldList = $this->indexList = null;
@@ -665,12 +665,12 @@ class MySQLDatabase extends SS_Database {
 	public function enum($values){
 		//For reference, this is what typically gets passed to this function:
 		//$parts=Array('datatype'=>'enum', 'enums'=>$this->enum, 'character set'=>'utf8', 'collate'=>
-		// 'utf8_general_ci', 'default'=>$this->default);
+		// 'utf8_swedish_ci', 'default'=>$this->default);
 		//DB::requireField($this->tableName, $this->name, "enum('" . implode("','", $this->enum) . "') character set
-		// utf8 collate utf8_general_ci default '{$this->default}'");
+		// utf8 collate utf8_swedish_ci default '{$this->default}'");
 
 		return 'enum(\'' . implode('\',\'', $values['enums']) . '\')'
-			. ' character set utf8 collate utf8_general_ci default \'' . $values['default'] . '\'';
+			. ' character set utf8 collate utf8_swedish_ci default \'' . $values['default'] . '\'';
 	}
 
 	/**
@@ -682,11 +682,11 @@ class MySQLDatabase extends SS_Database {
 	public function set($values){
 		//For reference, this is what typically gets passed to this function:
 		//$parts=Array('datatype'=>'enum', 'enums'=>$this->enum, 'character set'=>'utf8', 'collate'=>
-		// 'utf8_general_ci', 'default'=>$this->default);
+		// 'utf8_swedish_ci', 'default'=>$this->default);
 		//DB::requireField($this->tableName, $this->name, "enum('" . implode("','", $this->enum) . "') character set 
-		//utf8 collate utf8_general_ci default '{$this->default}'");
+		//utf8 collate utf8_swedish_ci default '{$this->default}'");
 		$default = empty($values['default']) ? '' : " default '$values[default]'";
-		return 'set(\'' . implode('\',\'', $values['enums']) . '\') character set utf8 collate utf8_general_ci' 
+		return 'set(\'' . implode('\',\'', $values['enums']) . '\') character set utf8 collate utf8_swedish_ci' 
 			. $default;
 	}
 
@@ -742,10 +742,10 @@ class MySQLDatabase extends SS_Database {
 	 */
 	public function text($values){
 		//For reference, this is what typically gets passed to this function:
-		//$parts=Array('datatype'=>'mediumtext', 'character set'=>'utf8', 'collate'=>'utf8_general_ci');
-		//DB::requireField($this->tableName, $this->name, "mediumtext character set utf8 collate utf8_general_ci");
+		//$parts=Array('datatype'=>'mediumtext', 'character set'=>'utf8', 'collate'=>'utf8_swedish_ci');
+		//DB::requireField($this->tableName, $this->name, "mediumtext character set utf8 collate utf8_swedish_ci");
 
-		return 'mediumtext character set utf8 collate utf8_general_ci';
+		return 'mediumtext character set utf8 collate utf8_swedish_ci';
 	}
 
 	/**
@@ -772,11 +772,11 @@ class MySQLDatabase extends SS_Database {
 	public function varchar($values){
 		//For reference, this is what typically gets passed to this function:
 		//$parts=Array('datatype'=>'varchar', 'precision'=>$this->size, 'character set'=>'utf8', 'collate'=>
-		//'utf8_general_ci');
+		//'utf8_swedish_ci');
 		//DB::requireField($this->tableName, $this->name, "varchar($this->size) character set utf8 collate
-		// utf8_general_ci");
+		// utf8_swedish_ci");
 
-		return 'varchar(' . $values['precision'] . ') character set utf8 collate utf8_general_ci';
+		return 'varchar(' . $values['precision'] . ') character set utf8 collate utf8_swedish_ci';
 	}
 
 	/*

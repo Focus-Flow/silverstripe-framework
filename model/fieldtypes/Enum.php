@@ -69,7 +69,7 @@ class Enum extends StringField {
 			'datatype' => 'enum', 
 			'enums' => Convert::raw2sql($this->enum), 
 			'character set' => 'utf8', 
-			'collate' => 'utf8_general_ci', 
+			'collate' => 'utf8_swedish_ci', 
 			'default' => Convert::raw2sql($this->default), 
 			'table' => $this->tableName, 
 			'arrayValue' => $this->arrayValue

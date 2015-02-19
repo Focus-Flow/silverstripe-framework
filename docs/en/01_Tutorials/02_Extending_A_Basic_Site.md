@@ -186,7 +186,7 @@ Now that we have created our page types, let's add some content. Go into the CMS
 
 ![](../_images/tutorial2_news-cms.jpg)
 
-##  Modifing the date field
+##  Modifying the date field
 
 At the moment, your date field will look just like a text field. 
 This makes it confusing and doesn't give the user much help when adding a date. 
@@ -246,7 +246,7 @@ page layout.
 ### ArticlePage Template
 First, the template for displaying a single article:
 
-**themes/simple/templates/Layout/ArticlePage.ss**
+**themes/simple/templates/Layout/ArticlePage.ss**
 
 
 	:::ss
@@ -408,6 +408,9 @@ An RSS feed is something that no news section should be without. SilverStripe ma
 		return $rss->outputToBrowser();
 	}
 
+
+Ensure that when you have input the code to implement an RSS feed; flush the webpage afterwards
+(add ?flush=all on the end of your URL). This is because allowed_actions has changed.
 
 This function creates an RSS feed of all the news articles, and outputs it to the browser. If we go to [http://localhost/your_site_name/news/rss](http://localhost/your_site_name/news/rss) we should see our RSS feed. When there is more to a URL after a page's base URL, "rss" in this case, SilverStripe will call the function with that name on the controller if it exists.
 

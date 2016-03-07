@@ -3,7 +3,7 @@
 ## Introduction
 
 This page details notes on how to ensure that we develop secure SilverStripe applications. 
-See our "[Release Process](/misc/release-process#security-releases) on how to report security issues.
+See our "[Release Process](/contributing/release_process#security-releases) on how to report security issues.
 
 ## SQL Injection
 
@@ -49,7 +49,7 @@ result in *double escaping* and alters the actually saved data (e.g. by adding s
 ### Manual escaping
 
 As a rule of thumb, whenever you're creating raw queries (or just chunks of SQL), you need to take care of escaping
-yourself. See [coding-conventions](/getting_started/coding_conventions) and [datamodel](/topics/datamodel) for ways to cast and convert
+yourself. See [coding-conventions](/getting_started/coding_conventions) and [datamodel](/developer_guides/model/data_types_and_casting) for ways to cast and convert
 your data.
 
 *  `SQLQuery`
@@ -137,7 +137,7 @@ XSS attack against an admin to perform any administrative action.
 If you can't trust your editors, SilverStripe must be configured to filter the content so that any javascript is
 stripped out
 
-To enable filtering, set the HtmlEditorField::$sanitise_server_side [configuration](/topics/configuration) property to
+To enable filtering, set the HtmlEditorField::$sanitise_server_side [configuration](/developer_guides/configuration/configuration) property to
 true, e.g.
 
 	HtmlEditorField::config()->sanitise_server_side = true
@@ -160,12 +160,12 @@ The `SiteTree.ExtraMeta` property uses this to limit allowed input.
 It is not currently possible to allow editors to provide javascript content and yet still protect other users
 from any malicious code within that javascript.
 
-We recommend configuring [shortcodes](/reference/shortcodes) that can be used by editors in place of using javascript directly.
+We recommend configuring [shortcodes](/developer_guides/extending/shortcodes) that can be used by editors in place of using javascript directly.
 
 ### Escaping model properties
 
 `[api:SSViewer]` (the SilverStripe template engine) automatically takes care of escaping HTML tags from specific
-object-properties by [casting](/topics/datamodel#casting) its string value into a `[api:DBField]` object.
+object-properties by [casting](/developer_guides/model/data_types_and_casting) its string value into a `[api:DBField]` object.
 
 PHP:
 
@@ -192,7 +192,7 @@ outputting through SSViewer.
 
 ### Overriding default escaping in templates
 
-You can force escaping on a casted value/object by using an [escape type](/topics/datamodel) method in your template, e.g.
+You can force escaping on a casted value/object by using an [escape type](/developer_guides/model/data_types_and_casting) method in your template, e.g.
 "XML" or "ATT". 
 
 Template (see above):
@@ -274,7 +274,7 @@ Template:
 
 Whenever you insert a variable into an HTML attribute within a template, use $VarName.ATT, no not $VarName.
 
-You can also use the built-in casting in PHP by using the *obj()* wrapper, see [datamodel](/topics/datamodel)  .
+You can also use the built-in casting in PHP by using the *obj()* wrapper, see [datamodel](/developer_guides/model/data_types_and_casting).
 
 ### Escaping URLs
 
@@ -374,7 +374,7 @@ cast types can be found here:
 *  `(object)` - cast to object
 
 Note that there is also a 'SilverStripe' way of casting fields on a class, this is a different type of casting to the
-standard PHP way. See [casting](/topics/datamodel#casting).
+standard PHP way. See [casting](/developer_guides/model/data_types_and_casting).
 
 
 
@@ -502,7 +502,11 @@ server IPs using the SS_TRUSTED_PROXY_IPS define in your _ss_environment.php.
 
 	:::php
 	define('SS_TRUSTED_PROXY_IPS', '127.0.0.1,192.168.0.1');
+	define('SS_TRUSTED_PROXY_HOST_HEADER', 'HTTP_X_FORWARDED_HOST');
+	define('SS_TRUSTED_PROXY_IP_HEADER', 'HTTP_X_FORWARDED_FOR');
+	define('SS_TRUSTED_PROXY_PROTOCOL_HEADER', 'HTTP_X_FORWARDED_PROTOCOL');
 
+At the same time, you'll also need to define which headers you trust from these proxy IPs. Since there are multiple ways through which proxies can pass through HTTP information on the original hostname, IP and protocol, these values need to be adjusted for your specific proxy. The header names match their equivalent `$_SERVER` values.
 
 If there is no proxy server, 'none' can be used to distrust all clients.
 If only trusted servers will make requests then you can use '*' to trust all clients.
@@ -524,7 +528,6 @@ following in your .htaccess to ensure this behaviour is activated.
 In a future release this behaviour will be changed to be on by default, and this environment
 variable will be no longer necessary, thus it will be necessary to always set
 SS_TRUSTED_PROXY_IPS if using a proxy.
-
 
 ##  Related
 

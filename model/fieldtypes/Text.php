@@ -40,7 +40,7 @@ class Text extends StringField {
 		$parts = array(
 			'datatype' => 'mediumtext',
 			'character set' => 'utf8',
-			'collate' => 'utf8_general_ci',
+			'collate' => 'utf8_swedish_ci',
 			'arrayValue' => $this->arrayValue
 		);
 

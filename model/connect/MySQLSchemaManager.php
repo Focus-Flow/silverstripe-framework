@@ -194,7 +194,7 @@ class MySQLSchemaManager extends DBSchemaManager {
 	}
 
 	public function createDatabase($name) {
-		$this->query("CREATE DATABASE \"$name\" DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci");
+		$this->query("CREATE DATABASE \"$name\" DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_swedish_ci");
 	}
 
 	public function dropDatabase($name) {
@@ -429,11 +429,11 @@ class MySQLSchemaManager extends DBSchemaManager {
 	public function enum($values) {
 		//For reference, this is what typically gets passed to this function:
 		//$parts=Array('datatype'=>'enum', 'enums'=>$this->enum, 'character set'=>'utf8', 'collate'=>
-		// 'utf8_general_ci', 'default'=>$this->default);
+		// 'utf8_swedish_ci', 'default'=>$this->default);
 		//DB::requireField($this->tableName, $this->name, "enum('" . implode("','", $this->enum) . "') character set
-		// utf8 collate utf8_general_ci default '{$this->default}'");
+		// utf8 collate utf8_swedish_ci default '{$this->default}'");
 		$valuesString = implode(",", Convert::raw2sql($values['enums'], true));
-		return "enum($valuesString) character set utf8 collate utf8_general_ci" . $this->defaultClause($values);
+		return "enum($valuesString) character set utf8 collate utf8_swedish_ci" . $this->defaultClause($values);
 	}
 
 	/**
@@ -445,11 +445,11 @@ class MySQLSchemaManager extends DBSchemaManager {
 	public function set($values) {
 		//For reference, this is what typically gets passed to this function:
 		//$parts=Array('datatype'=>'enum', 'enums'=>$this->enum, 'character set'=>'utf8', 'collate'=>
-		// 'utf8_general_ci', 'default'=>$this->default);
+		// 'utf8_swedish_ci', 'default'=>$this->default);
 		//DB::requireField($this->tableName, $this->name, "enum('" . implode("','", $this->enum) . "') character set
-		//utf8 collate utf8_general_ci default '{$this->default}'");
+		//utf8 collate utf8_swedish_ci default '{$this->default}'");
 		$valuesString = implode(",", Convert::raw2sql($values['enums'], true));
-		return "set($valuesString) character set utf8 collate utf8_general_ci" . $this->defaultClause($values);
+		return "set($valuesString) character set utf8 collate utf8_swedish_ci" . $this->defaultClause($values);
 	}
 
 	/**
@@ -501,9 +501,9 @@ class MySQLSchemaManager extends DBSchemaManager {
 	 */
 	public function text($values) {
 		//For reference, this is what typically gets passed to this function:
-		//$parts=Array('datatype'=>'mediumtext', 'character set'=>'utf8', 'collate'=>'utf8_general_ci');
-		//DB::requireField($this->tableName, $this->name, "mediumtext character set utf8 collate utf8_general_ci");
-		return 'mediumtext character set utf8 collate utf8_general_ci' . $this->defaultClause($values);
+		//$parts=Array('datatype'=>'mediumtext', 'character set'=>'utf8', 'collate'=>'utf8_swedish_ci');
+		//DB::requireField($this->tableName, $this->name, "mediumtext character set utf8 collate utf8_swedish_ci");
+		return 'mediumtext character set utf8 collate utf8_swedish_ci' . $this->defaultClause($values);
 	}
 
 	/**
@@ -529,11 +529,11 @@ class MySQLSchemaManager extends DBSchemaManager {
 	public function varchar($values) {
 		//For reference, this is what typically gets passed to this function:
 		//$parts=Array('datatype'=>'varchar', 'precision'=>$this->size, 'character set'=>'utf8', 'collate'=>
-		//'utf8_general_ci');
+		//'utf8_swedish_ci');
 		//DB::requireField($this->tableName, $this->name, "varchar($this->size) character set utf8 collate
-		// utf8_general_ci");
+		// utf8_swedish_ci");
 		$default = $this->defaultClause($values);
-		return "varchar({$values['precision']}) character set utf8 collate utf8_general_ci$default";
+		return "varchar({$values['precision']}) character set utf8 collate utf8_swedish_ci$default";
 	}
 
 	/*

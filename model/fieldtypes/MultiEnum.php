@@ -37,7 +37,7 @@ class MultiEnum extends Enum {
 			'parts'=>array(
 				'enums'=>$this->enum,
 				'character set'=>'utf8',
-				'collate'=> 'utf8_general_ci',
+				'collate'=> 'utf8_swedish_ci',
 				'default'=> $this->default,
 				'table'=>$this->tableName,
 				'arrayValue'=>$this->arrayValue

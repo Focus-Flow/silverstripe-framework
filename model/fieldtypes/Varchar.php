@@ -54,7 +54,7 @@ class Varchar extends StringField {
 			'datatype'=>'varchar',
 			'precision'=>$this->size,
 			'character set'=>'utf8',
-			'collate'=>'utf8_general_ci',
+			'collate'=>'utf8_swedish_ci',
 			'arrayValue'=>$this->arrayValue
 		);
 

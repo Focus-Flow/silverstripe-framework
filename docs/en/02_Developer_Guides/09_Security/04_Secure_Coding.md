@@ -58,10 +58,10 @@ Parameterised updates and inserts are also supported, but the syntax is a little
 
 SilverStripe internally will use parameterised queries in SQL statements wherever possible.
 
-If necessary Silverstripe performs any required escaping through database-specific methods (see `[api:Database->addslashes()]`).
-For `[api:MySQLDatabase]`, this will be `[mysql_real_escape_string()](http://de3.php.net/mysql_real_escape_string)`.
+If necessary Silverstripe performs any required escaping through database-specific methods (see [api:Database::addslashes()]).
+For [api:MySQLDatabase], this will be `[mysql_real_escape_string()](http://de3.php.net/mysql_real_escape_string)`.
 
-*  Most `[api:DataList]` accessors (see escaping note in method documentation)
+*  Most [api:DataList] accessors (see escaping note in method documentation)
 *  DataObject::get_by_id()
 *  DataObject::update()
 *  DataObject::castedUpdate()
@@ -110,12 +110,12 @@ Example:
 
 	:::php
 	class MyForm extends Form {
-		public function save($RAW_data, $form) {
+	  public function save($RAW_data, $form) {
 			// Pass true as the second parameter of raw2sql to quote the value safely
 			$SQL_data = Convert::raw2sql($RAW_data, true); // works recursively on an array
 			$objs = Player::get()->where("Name = " . $SQL_data['name']);
-			// ...
-		}
+	    // ...
+	  }
 	}
 
 
@@ -126,13 +126,13 @@ Example:
 
 	:::php
 	class MyController extends Controller {
-		private static $allowed_actions = array('myurlaction');
-		public function myurlaction($RAW_urlParams) {
+	  private static $allowed_actions = array('myurlaction');
+	  public function myurlaction($RAW_urlParams) {
 			// Pass true as the second parameter of raw2sql to quote the value safely
 			$SQL_urlParams = Convert::raw2sql($RAW_urlParams, true); // works recursively on an array
 			$objs = Player::get()->where("Name = " . $SQL_data['OtherID']);
-			// ...
-		}
+	    // ...
+	  }
 	}
 
 
@@ -142,21 +142,21 @@ passing data through, escaping should happen at the end of the chain.
 
 	:::php
 	class MyController extends Controller {
-		/**
-		 * @param array $RAW_data All names in an indexed array (not SQL-safe)
-		 */
-		public function saveAllNames($RAW_data) {
-			// $SQL_data = Convert::raw2sql($RAW_data); // premature escaping
-			foreach($RAW_data as $item) $this->saveName($item);
-		}
-
-		public function saveName($RAW_name) {
+	  /**
+	   * @param array $RAW_data All names in an indexed array (not SQL-safe)
+	   */
+	  public function saveAllNames($RAW_data) {
+	    // $SQL_data = Convert::raw2sql($RAW_data); // premature escaping
+	    foreach($RAW_data as $item) $this->saveName($item);
+	  }
+	
+	  public function saveName($RAW_name) {
 			$SQL_name = Convert::raw2sql($RAW_name, true);
 			DB::query("UPDATE Player SET Name = {$SQL_name}");
-		}
+	  }
 	}
 
-This might not be applicable in all cases - especially if you are building an API thats likely to be customized. If
+This might not be applicable in all cases - especially if you are building an API thats likely to be customised. If
 you're passing unescaped data, make sure to be explicit about it by writing *phpdoc*-documentation and *prefixing* your
 variables ($RAW_data instead of $data).
 
@@ -213,17 +213,17 @@ We recommend configuring [shortcodes](/developer_guides/extending/shortcodes) th
 
 ### Escaping model properties
 
-`[api:SSViewer]` (the SilverStripe template engine) automatically takes care of escaping HTML tags from specific
-object-properties by [casting](/developer_guides/model/data_types_and_casting) its string value into a `[api:DBField]` object.
+[api:SSViewer] (the SilverStripe template engine) automatically takes care of escaping HTML tags from specific
+object-properties by [casting](/developer_guides/model/data_types_and_casting) its string value into a [api:DBField] object.
 
 PHP:
 
 	:::php
 	class MyObject extends DataObject {
-		private static $db = array(
-			'MyEscapedValue' => 'Text', // Example value: <b>not bold</b>
-			'MyUnescapedValue' => 'HTMLText' // Example value: <b>bold</b>
-		);
+	  private static $db = array(
+	    'MyEscapedValue' => 'Text', // Example value: <b>not bold</b>
+	    'MyUnescapedValue' => 'HTMLText' // Example value: <b>bold</b>
+	  );
 	}
 
 
@@ -231,8 +231,8 @@ Template:
 
 	:::php
 	<ul>
-		<li>$MyEscapedValue</li> // output: &lt;b&gt;not bold&lt;b&gt;
-		<li>$MyUnescapedValue</li> // output: <b>bold</b>
+	  <li>$MyEscapedValue</li> // output: &lt;b&gt;not bold&lt;b&gt;
+	  <li>$MyUnescapedValue</li> // output: <b>bold</b>
 	</ul>
 
 
@@ -248,11 +248,11 @@ Template (see above):
 
 	:::php
 	<ul>
-		// output: <a href="#" title="foo &amp; &#quot;bar&quot;">foo &amp; "bar"</a>
-		<li><a href="#" title="$Title.ATT">$Title</a></li>
-		<li>$MyEscapedValue</li> // output: &lt;b&gt;not bold&lt;b&gt;
-		<li>$MyUnescapedValue</li> // output: <b>bold</b>
-		<li>$MyUnescapedValue.XML</li> // output: &lt;b&gt;bold&lt;b&gt;
+	  // output: <a href="#" title="foo &amp; &#quot;bar&quot;">foo &amp; "bar"</a>
+	  <li><a href="#" title="$Title.ATT">$Title</a></li>
+	  <li>$MyEscapedValue</li> // output: &lt;b&gt;not bold&lt;b&gt;
+	  <li>$MyUnescapedValue</li> // output: <b>bold</b>
+	  <li>$MyUnescapedValue.XML</li> // output: &lt;b&gt;bold&lt;b&gt;
 	</ul>
 
 
@@ -266,7 +266,7 @@ PHP:
 	:::php
 	class MyObject extends DataObject {
 		public $Title = '<b>not bold</b>'; // will be escaped due to Text casting
-		
+	     
 		$casting = array(
 			"Title" => "Text", // forcing a casting
 			'TitleWithHTMLSuffix' => 'HTMLText' // optional, as HTMLText is the default casting
@@ -283,9 +283,9 @@ Template:
 
 	:::php
 	<ul>
-		<li>$Title</li> // output: &lt;b&gt;not bold&lt;b&gt;
-		<li>$Title.RAW</li> // output: <b>not bold</b>
-		<li>$TitleWithHTMLSuffix</li> // output: <b>not bold</b>: <small>(...)</small>
+	  <li>$Title</li> // output: &lt;b&gt;not bold&lt;b&gt;
+	  <li>$Title.RAW</li> // output: <b>not bold</b>
+	  <li>$TitleWithHTMLSuffix</li> // output: <b>not bold</b>: <small>(...)</small>
 	</ul>
 
 
@@ -297,7 +297,7 @@ presentation from business logic.
 When using *customise()* or *renderWith()* calls in your controller, or otherwise forcing a custom context for your
 template, you'll need to take care of casting and escaping yourself in PHP. 
 
-The `[api:Convert]` class has utilities for this, mainly *Convert::raw2xml()* and *Convert::raw2att()* (which is
+The [api:Convert] class has utilities for this, mainly *Convert::raw2xml()* and *Convert::raw2att()* (which is
 also used by *XML* and *ATT* in template code).
 
 PHP:
@@ -372,14 +372,14 @@ SilverStripe has built-in countermeasures against [CSRF](http://shiflett.org/art
 will automatically contain a `SecurityID` parameter which is generated as a secure hash on the server, connected to the
 currently active session of the user. If this form is submitted without this parameter, or if the parameter doesn't
 match the hash stored in the users session, the request is discarded.
-You can disable this behaviour through `[api:Form->disableSecurityToken()]`.
+You can disable this behaviour through [api:Form::disableSecurityToken()].
 
 It is also recommended to limit form submissions to the intended HTTP verb (mostly `GET` or `POST`)
-through `[api:Form->setStrictFormMethodCheck()]`. 
+through [api:Form::setStrictFormMethodCheck()]. 
 
 Sometimes you need to handle state-changing HTTP submissions which aren't handled through
 SilverStripe's form system. In this case, you can also check the current HTTP request
-for a valid token through `[api:SecurityToken::checkRequest()]`.
+for a valid token through [api:SecurityToken::checkRequest()].
 
 ## Casting user input
 
@@ -398,17 +398,17 @@ Below is an example with different ways you would use this casting technique:
 	:::php
 	public function CaseStudies() {
 	
-		// cast an ID from URL parameters e.g. (mysite.com/home/action/ID)
-		$anotherID = (int)Director::urlParam['ID'];
-
-		// perform a calculation, the prerequisite being $anotherID must be an integer
-		$calc = $anotherID + (5 - 2) / 2;
-
-		// cast the 'category' GET variable as an integer
-		$categoryID = (int)$_GET['category'];
-
-		// perform a byID(), which ensures the ID is an integer before querying
-		return CaseStudy::get()->byID($categoryID);
+	   // cast an ID from URL parameters e.g. (mysite.com/home/action/ID)
+	   $anotherID = (int)Director::urlParam['ID'];
+	
+	   // perform a calculation, the prerequisite being $anotherID must be an integer
+	   $calc = $anotherID + (5 - 2) / 2;
+	
+	   // cast the 'category' GET variable as an integer
+	   $categoryID = (int)$_GET['category'];
+	
+	   // perform a byID(), which ensures the ID is an integer before querying
+	   return CaseStudy::get()->byID($categoryID);
 	}
 
 
@@ -439,10 +439,10 @@ disallow certain filetypes.
 Example configuration for Apache2:
 
 	<VirtualHost *:80>
-		<LocationMatch assets/>
-			php_flag engine off
-			Options -ExecCGI -Includes -Indexes
-		</LocationMatch>
+	  <LocationMatch assets/>
+	    php_flag engine off
+	    Options -ExecCGI -Includes -Indexes
+	  </LocationMatch>
 	</VirtualHost>
 
 

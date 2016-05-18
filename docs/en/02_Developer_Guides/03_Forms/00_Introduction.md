@@ -87,7 +87,7 @@ controller action. To grant it access through URLs, we add it to the `$allowed_a
 
 <div class="notice" markdown="1">
 Form actions (`doSayHello`), on the other hand, should _not_ be included in `$allowed_actions`; these are handled 
-separately through [api:Form::httpSubmission].
+separately through [api:Form::httpSubmission()].
 </div>
 
 
@@ -153,7 +153,7 @@ information on the CMS interface.
 
 ## Modifying FormFields
 
-Each [api:FormField] subclass has a number of methods you can call on it to customize its' behavior or HTML markup. The
+Each [api:FormField] subclass has a number of methods you can call on it to customise its' behavior or HTML markup. The
 default `FormField` object has several methods for doing common operations. 
 
 <div class="notice" markdown="1">
